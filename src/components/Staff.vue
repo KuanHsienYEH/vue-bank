@@ -1,65 +1,54 @@
 <template>
- <div class='tr'>
-    <div class='td'>
-    {{counter}}
+  <div class="tr">
+    <div class="td">
+      {{ name }}
     </div>
-    <div class='td'>
-    <span>{{status}}</span>
+    <div class="td">
+      <span>{{ status }}</span>
     </div>
-    <div class='td'>
-      <span v-for='(item,index) in processedTask' :key='index'>
-        {{item}},
+    <div class="td">
+      <span v-for="(item, index) in processedTask" :key="index">
+        {{ item }},
       </span>
     </div>
   </div>
 </template>
 
 <script>
-import {  mapState } from 'vuex';
+// import { mapState } from "vuex";
 
 export default {
-  name: 'Staff',
+  name: "Staff",
   props: {
-    counter: String,
-    processing: Number,
+    name: String,
+    queue: Array,
   },
-  data(){
-    return{
-      currentTask:'',
-      processedTask:[]
-    }
+  data() {
+    return {
+      currentTask: "",
+      processedTask: [],
+      idle: "idle",
+    };
   },
-  computed:{
+  computed: {
     status() {
-      return this.processing ? this.processing : 'idle'
+      return this.processing ? this.processing : this.idle;
     },
-    allTask(){
-      return this.$store.state.task
-    }
   },
   methods: {
-    ...mapState(['task']),
-    reloveTask () {
-      this.currentTask = this.task.shift()
-      setTimeout(() => {
-        this.currentTask = '';
-        
-      }, 0.5 + Math.random())
+    updateStatus() {
+      this.$emit("update", this.status);
     },
   },
-  watch:{
-    'allTask':function(val){
-        if(!this.currentTask || val.length){
-          this.reloveTask();
-        }
-    }
+  updated() {
+    console.log(this.queue);
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .tr:nth-child(even) .td {
-    background: #f0f0f0;
+  background: #f0f0f0;
 }
 </style>

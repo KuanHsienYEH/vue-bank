@@ -1,42 +1,59 @@
 <template>
   <div id="app">
-    <div class='table'>
-      <div class='thead'>
-        <div class='tr'>
-          <div class='th'><h3>counter</h3></div>
-          <div class='th'><h3>processing</h3></div>
-          <div class='th'><h3>processed</h3></div>
+    <div class="table">
+      <div class="thead">
+        <div class="tr">
+          <div class="th"><h3>counter</h3></div>
+          <div class="th"><h3>processing</h3></div>
+          <div class="th"><h3>processed</h3></div>
         </div>
       </div>
-      <div class='tbody'>
-        <Staff v-for="(thread,index) in threads"
-        :counter='thread'
-        :key='index'/>
+      <div class="tbody">
+        <Staff
+          v-for="(staff, index) in staffs"
+          :name="staff"
+          :key="index"
+          :queue="queue"
+        />
       </div>
     </div>
-    <Ticket />
+    <Ticket
+      :countStart="countStart"
+      :countLength="countLength"
+      @updateCount="selfUpdateCount"
+    />
   </div>
 </template>
 
 <script>
-import Staff from './components/Staff.vue'
-import Ticket from './components/Ticket.vue'
-
-import { mapState } from 'vuex'
+import Staff from "./components/Staff.vue";
+import Ticket from "./components/Ticket.vue";
 
 export default {
-  name: 'Bank',
+  name: "Bank",
+  data() {
+    return {
+      staffs: ["Annie", "Jack", "Bernie", "Erica"],
+      countStart: 0,
+      queue: [],
+    };
+  },
   components: {
     Staff,
-    Ticket
+    Ticket,
   },
-  computed:{
-    ...mapState(['threads']),
+  computed: {
+    countLength() {
+      return this.queue.length;
+    },
   },
   methods: {
-    ...mapState(['task']),
-  }
-}
+    selfUpdateCount(val) {
+      this.countStart = val;
+      this.queue.push(val);
+    },
+  },
+};
 </script>
 
 <style>
@@ -51,8 +68,8 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
 }
-.table{
-  display:grid;
+.table {
+  display: grid;
   border-collapse: collapse;
   border: 1px solid #c5c5c5;
   min-width: 100%;
@@ -61,10 +78,15 @@ export default {
   grid-auto-columns: 1fr 1fr 1fr;
   font-size: 24px;
 }
-.thead, .tbody, .tr{
-    display: contents;
+.thead,
+.tbody,
+.tr {
+  display: contents;
 }
-.th{
+.th {
   background-color: #e2e2e2;
+}
+.td {
+  margin-top: 2px;
 }
 </style>
