@@ -9,22 +9,22 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     count: 0,
-    threads:['annie','jack','bernie','erica'],
-    task:[]
+    threads: ['annie', 'jack', 'bernie', 'erica'],
+    task: []
   },
-  getters:{
-    moveOn:state => state.count + 1
+  getters: {
+    moveOn: state => state.count + 1
   },
   mutations: {
-    increment (state) {
+    increment(state) {
       state.count++;
       state.task.push(state.count);
     },
-    decrement (state) {
+    decrement(state) {
       state.count--;
     }
   },
-  actions:{
+  actions: {
     increment: ({ commit }) => commit('increment'),
     decrement: ({ commit }) => commit('decrement'),
     // incrementAsync ({ commit }) {
