@@ -13,7 +13,8 @@
           v-for="(staff, index) in staffs"
           :name="staff"
           :key="index"
-          :queue="queue"
+          :curNumber="curNumber"
+          @updateStatus="updateSelfStatus"
         />
       </div>
     </div>
@@ -33,9 +34,10 @@ export default {
   name: "Bank",
   data() {
     return {
-      staffs: ["Annie", "Jack", "Bernie", "Erica"],
-      countStart: 0,
-      queue: [],
+      staffs: ["Annie", "Jack", "Bernie", "Erica"], //行員
+      countStart: 0, //號碼牌從0開始
+      queue: [], //排隊中的號碼
+      curNumber: 0, //下一個要被處理的號碼
     };
   },
   components: {
@@ -48,9 +50,27 @@ export default {
     },
   },
   methods: {
+    // processQueumber() {
+    //   this.curNumber = this.queue.shift();
+    // },
     selfUpdateCount(val) {
       this.countStart = val;
       this.queue.push(val);
+      //當queue裡面有號碼的時候 從queue拿一個號碼 去找idle的人
+    },
+    updateSelfStatus(val) {
+      console.log(val);
+    },
+  },
+  mounted() {
+    console.log(this.$children[0].name);
+  },
+  watch: {
+    queue(val) {
+      if (this.curNumber === 0) {
+        this.curNumber = this.queue.shift();
+        console.log(val);
+      }
     },
   },
 };

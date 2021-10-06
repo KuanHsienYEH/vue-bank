@@ -7,9 +7,7 @@
       <span>{{ status }}</span>
     </div>
     <div class="td">
-      <span v-for="(item, index) in processedTask" :key="index">
-        {{ item }},
-      </span>
+      <span v-for="(item, index) in processed" :key="index"> {{ item }}, </span>
     </div>
   </div>
 </template>
@@ -21,27 +19,35 @@ export default {
   name: "Staff",
   props: {
     name: String,
-    queue: Array,
+    curNumber: Number,
   },
   data() {
     return {
-      currentTask: "",
-      processedTask: [],
-      idle: "idle",
+      processed: [],
+      num: 0,
     };
   },
   computed: {
     status() {
-      return this.processing ? this.processing : this.idle;
+      return this.num ? this.curNumber : "idle";
     },
   },
   methods: {
     updateStatus() {
+      //console.log(this.name);
       this.$emit("update", this.status);
     },
   },
-  updated() {
-    console.log(this.queue);
+  mounted() {
+    this.updateStatus();
+  },
+  watch: {
+    status(val) {
+      setTimeout(() => {
+        this.processed.push(val);
+        this.num = 0;
+      }, 0.5 + Math.random());
+    },
   },
 };
 </script>
