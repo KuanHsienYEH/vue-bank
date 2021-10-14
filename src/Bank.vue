@@ -50,9 +50,6 @@ export default {
     },
   },
   methods: {
-    // processQueumber() {
-    //   this.curNumber = this.queue.shift();
-    // },
     selfUpdateCount(val) {
       this.countStart = val;
       this.queue.push(val);

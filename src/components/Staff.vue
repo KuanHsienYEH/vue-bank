@@ -13,8 +13,6 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
-
 export default {
   name: "Staff",
   props: {
@@ -34,7 +32,6 @@ export default {
   },
   methods: {
     updateStatus() {
-      //console.log(this.name);
       this.$emit("update", this.status);
     },
   },

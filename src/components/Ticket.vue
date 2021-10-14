@@ -8,8 +8,6 @@
 </template>
 
 <script>
-// import { mapGetters, mapActions, mapState } from "vuex";
-
 export default {
   name: "Ticket",
   props: {
