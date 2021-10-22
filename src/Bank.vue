@@ -3,7 +3,7 @@
     <div class="table">
       <div class="thead">
         <div class="tr">
-          <div class="th"><h3>counter</h3></div>
+          <div class="th"><h3>staff</h3></div>
           <div class="th"><h3>processing</h3></div>
           <div class="th"><h3>processed</h3></div>
         </div>
@@ -11,15 +11,14 @@
       <div class="tbody">
         <Staff
           v-for="(staff, index) in staffs"
-          :name="staff"
+          :staff="staff"
           :key="index"
-          :curNumber="curNumber"
           @updateStatus="updateSelfStatus"
         />
       </div>
     </div>
     <Ticket
-      :countStart="countStart"
+      :ticketNumber="ticketNumber"
       :countLength="countLength"
       @updateCount="selfUpdateCount"
     />
@@ -32,17 +31,39 @@ import Ticket from "./components/Ticket.vue";
 
 export default {
   name: "Bank",
-  data() {
-    return {
-      staffs: ["Annie", "Jack", "Bernie", "Erica"], //行員
-      countStart: 0, //號碼牌從0開始
-      queue: [], //排隊中的號碼
-      curNumber: 0, //下一個要被處理的號碼
-    };
-  },
   components: {
     Staff,
     Ticket,
+  },
+  data() {
+    return {
+      staffs: [
+        {
+          staffName: "Annie",
+          curNumber: 0,
+          isProcessing: false,
+        },
+        {
+          staffName: "Jack",
+          curNumber: 0,
+          isProcessing: false,
+        },
+        {
+          staffName: "Feank",
+          curNumber: 0,
+          isProcessing: false,
+        },
+        {
+          staffName: "Lee",
+          curNumber: 0,
+          isProcessing: false,
+        },
+      ],
+      ticketNumber: 0, //號碼牌從0開始
+      queue: [], //排隊中的號碼
+      cloneQueue: [],
+      curProcessingNumber: 0, //目前叫號
+    };
   },
   computed: {
     countLength() {
@@ -51,24 +72,39 @@ export default {
   },
   methods: {
     selfUpdateCount(val) {
-      this.countStart = val;
+      //從ticket傳進來的號碼
+      this.ticketNumber = val;
       this.queue.push(val);
-      //當queue裡面有號碼的時候 從queue拿一個號碼 去找idle的人
+
+      this.processNumber();
     },
     updateSelfStatus(val) {
-      console.log(val);
+      console.log(val); //沒收到東西
+      console.log(2); //沒收到東西
+    },
+    processNumber() {
+      //從queue拿一個號碼
+      this.curProcessingNumber = this.queue.shift();
+      //找一個有空的人
+      for (let staff of this.staffs) {
+        if (!staff.isProcessing) {
+          staff.curNumber = this.curProcessingNumber;
+          staff.isProcessing = true;
+          break;
+        }
+      }
     },
   },
   mounted() {
-    console.log(this.$children[0].name);
+    //console.log(this.$children[0].name);
   },
   watch: {
-    queue(val) {
-      if (this.curNumber === 0) {
-        this.curNumber = this.queue.shift();
-        console.log(val);
-      }
-    },
+    // queue(val) {
+    //   if (this.curNumber === 0) {
+    //     this.curNumber = this.queue.shift();
+    //     console.log(val);
+    //   }
+    // },
   },
 };
 </script>
