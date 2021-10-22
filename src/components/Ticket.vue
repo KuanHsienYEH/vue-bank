@@ -2,7 +2,7 @@
   <div class="ticket">
     <h1>waiting : {{ countLength }}</h1>
     <button @click="increment">
-      <h1>Next {{ countStart + 1 }}</h1>
+      <h1>Next {{ ticketNumber + 1 }}</h1>
     </button>
   </div>
 </template>
@@ -11,13 +11,12 @@
 export default {
   name: "Ticket",
   props: {
-    countStart: Number,
+    ticketNumber: Number,
     countLength: Number,
   },
-  computed: {},
   methods: {
     increment() {
-      this.$emit("updateCount", this.countStart + 1);
+      this.$emit("updateCount", this.ticketNumber + 1);
     },
   },
 };

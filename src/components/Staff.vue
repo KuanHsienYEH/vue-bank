@@ -1,7 +1,7 @@
 <template>
   <div class="tr">
     <div class="td">
-      {{ name }}
+      {{ staff.staffName }}
     </div>
     <div class="td">
       <span>{{ status }}</span>
@@ -16,34 +16,41 @@
 export default {
   name: "Staff",
   props: {
-    name: String,
-    curNumber: Number,
+    staff: Object,
   },
   data() {
     return {
       processed: [],
-      num: 0,
+      selfStaff: {
+        staffName: this.staff.staffName,
+        curNumber: 0,
+        isProcessing: false,
+      },
     };
   },
   computed: {
     status() {
-      return this.num ? this.curNumber : "idle";
+      return this.selfStaff.curNumber === 0 ? "idle" : this.selfStaff.curNumber;
     },
   },
   methods: {
     updateStatus() {
-      this.$emit("update", this.status);
+      this.$emit("update", this.selfStaff);
+      console.log(this.selfStaff); //這裡會把全部的staff都印出來
     },
   },
-  mounted() {
-    this.updateStatus();
-  },
   watch: {
-    status(val) {
-      setTimeout(() => {
-        this.processed.push(val);
-        this.num = 0;
-      }, 0.5 + Math.random());
+    staff: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        this.selfStaff.curNumber = val.curNumber;
+        setTimeout(() => {
+          if (this.selfStaff.curNumber) this.processed.push(val.curNumber);
+          this.selfStaff.curNumber = 0;
+          this.updateStatus();
+        }, 5000 + Math.random());
+      },
     },
   },
 };
