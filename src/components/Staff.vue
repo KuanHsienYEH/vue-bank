@@ -35,8 +35,8 @@ export default {
   },
   methods: {
     updateStatus() {
-      this.$emit("update", this.selfStaff);
-      console.log(this.selfStaff); //這裡會把全部的staff都印出來
+      this.$emit("update", this.selfStaff); //傳不出去 不知道是不是跟沒綁在html有關
+      console.log("selfStaff", this.selfStaff); //第一run這裡會把全部的staff都印出來
     },
   },
   watch: {
