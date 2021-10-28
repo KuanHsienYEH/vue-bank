@@ -79,8 +79,9 @@ export default {
       this.processNumber();
     },
     updateSelfStatus(val) {
+      // 收到值代表任務完成 就可以去queue裡面找下一個數字來處理
       console.log(val); //沒收到東西
-      console.log(2); //沒收到東西
+      console.log(1234); //沒收到東西
     },
     processNumber() {
       //從queue拿一個號碼
