@@ -35,8 +35,8 @@ export default {
   },
   methods: {
     updateStatus() {
-      this.$emit("update", this.selfStaff); //傳不出去 不知道是不是跟沒綁在html有關
-      console.log("selfStaff", this.selfStaff); //第一run這裡會把全部的staff都印出來
+      this.$emit("done", this.selfStaff); //傳不出去 不知道是不是跟沒綁在html有關
+      console.log("selfStaff", this.selfStaff); //第一run這裡會把全部的staff都印出來, 一開始會傳0進去
     },
   },
   watch: {
@@ -46,9 +46,11 @@ export default {
       handler(val) {
         this.selfStaff.curNumber = val.curNumber;
         setTimeout(() => {
-          if (this.selfStaff.curNumber) this.processed.push(val.curNumber);
-          this.selfStaff.curNumber = 0;
-          this.updateStatus();
+          if (this.selfStaff.curNumber) {
+            this.processed.push(val.curNumber);
+            this.selfStaff.curNumber = 0;
+            this.updateStatus();
+          }
         }, 5000 + Math.random());
       },
     },

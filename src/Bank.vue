@@ -13,7 +13,7 @@
           v-for="(staff, index) in staffs"
           :staff="staff"
           :key="index"
-          @updateStatus="updateSelfStatus"
+          @done="updateSelfStatus"
         />
       </div>
     </div>
@@ -80,8 +80,8 @@ export default {
     },
     updateSelfStatus(val) {
       // 收到值代表任務完成 就可以去queue裡面找下一個數字來處理
-      console.log(val); //沒收到東西
-      console.log(1234); //沒收到東西
+      console.log(val);
+      this.processNumber();
     },
     processNumber() {
       //從queue拿一個號碼
@@ -96,9 +96,7 @@ export default {
       }
     },
   },
-  mounted() {
-    //console.log(this.$children[0].name);
-  },
+  mounted() {},
   watch: {
     // queue(val) {
     //   if (this.curNumber === 0) {
